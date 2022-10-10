@@ -7,6 +7,15 @@
   </head>
   <body>
     <h1>Open the console</h1>
-    <script></script>
+    <script>
+      function getUser(username) {
+        const userUrl = `https://api.github.com/users/${username}`;
+        return fetch(userUrl).then((response) => response.json());
+      }
+
+      getUser("oliverjam")
+        .then((user) => console.log(user))
+        .catch((error) => console.log(error));
+    </script>
   </body>
 </html>
