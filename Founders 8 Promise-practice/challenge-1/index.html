@@ -16,12 +16,16 @@
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
 
-      // example usage of wait (feel free to delete):
-      wait(2000).then(() => {
-        console.log("this callback ran after 2000ms");
-      });
+      function light(color) {
+        return wait(1000).then(() => console.log(color));
+      }
 
-      // write your code here
+      light("green")
+        .then(() => light("amber"))
+        .then(() => light("red"))
+        .then(() => light("amber"))
+        .then(() => light("green"))
+        .then(() => light("finished"));
     </script>
   </body>
 </html>
