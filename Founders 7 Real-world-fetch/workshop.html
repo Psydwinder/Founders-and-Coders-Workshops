@@ -6,6 +6,58 @@
     <title>Real world fetch</title>
   </head>
   <body>
-    <script></script>
+    <form>
+      <h1>Pokemon Search</h1>
+      <label for="pokemon">Pokemon name</label>
+      <input
+        id="pokemon"
+        name="pokemon"
+        type="search"
+        placeholder="Enter Pokemon name here"
+        required
+      />
+      <button type="submit">Search</button>
+      <output></output>
+    </form>
+
+    <script>
+      const form = document.querySelector("form");
+      const output = document.querySelector("output");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        output.innerHTML = "";
+
+        const formData = new FormData(form);
+        const name = formData.get("pokemon");
+
+        fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+          .then((response) => {
+            if (!response.ok) throw new Error(response.status);
+            return response.json();
+          })
+
+          .then((pokemonData) => {
+            const heading = document.createElement("h2");
+            heading.textContent = pokemonData.name;
+
+            const image = document.createElement("img");
+            image.src = pokemonData.sprites.front_default;
+            image.alt = "";
+
+            output.append(heading, image);
+          })
+
+          .catch((error) => {
+            console.log(error);
+            if (error.message === "404") {
+              output.textContent = `Error: Couldn't find "${name}"`;
+            } else {
+              output.textContent = "Error";
+            }
+          });
+      });
+    </script>
   </body>
 </html>
